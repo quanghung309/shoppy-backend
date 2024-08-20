@@ -21,7 +21,7 @@ import { LoggerModule } from 'nestjs-pino';
           }
         }
       },
-            inject: [ConfigService],
+      inject: [ConfigService],
 
     }),
     ConfigModule.forRoot(), UsersModule],
