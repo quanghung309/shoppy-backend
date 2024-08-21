@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { LoggerModule } from 'nestjs-pino';
 import { PrismaModule } from './prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { PrismaModule } from './prisma/prisma.module';
       inject: [ConfigService],
 
     }),
-    ConfigModule.forRoot(), UsersModule],
+    ConfigModule.forRoot(), UsersModule, AuthModule],
   controllers: [],
   providers: [],
 })
