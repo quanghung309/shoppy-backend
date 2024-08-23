@@ -16,7 +16,6 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
   async login(user: User, response: Response) {
-    // const ms = require('ms');
     const expires = new Date();
     expires.setMilliseconds(
       expires.getMilliseconds() +
