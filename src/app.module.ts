@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { LoggerModule } from 'nestjs-pino';
-import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
-
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 @Module({
   imports: [
     LoggerModule.forRootAsync({
@@ -14,20 +14,28 @@ import { ProductsModule } from './products/products.module';
         const isProduction = configService.get('NODE_ENV') === 'production';
         return {
           pinoHttp: {
-            transport: isProduction ? undefined : {
-              target: 'pino-pretty',
-              options: {
-                singleLine: true,          
-              }
-            },
+            transport: isProduction
+              ? undefined
+              : {
+                  target: 'pino-pretty',
+                  options: {
+                    singleLine: true,
+                  },
+                },
             level: isProduction ? 'info' : 'debug',
-          }
-        }
+          },
+        };
       },
       inject: [ConfigService],
-
     }),
-    ConfigModule.forRoot(), UsersModule, AuthModule, ProductsModule],
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+    }),
+    ConfigModule.forRoot(),
+    UsersModule,
+    AuthModule,
+    ProductsModule,
+  ],
   controllers: [],
   providers: [],
 })
