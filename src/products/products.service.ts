@@ -19,7 +19,7 @@ export class ProductsService {
     const products = await this.prismaService.product.findMany();
     return Promise.all(
       products.map(async (product) => ({
-        ...products,
+        ...product,
         imageExists: await this.imageExists(product.id),
       })),
     );
@@ -27,11 +27,11 @@ export class ProductsService {
   private async imageExists(productId: number) {
     try {
       await fs.access(
-        join(__dirname, '../../', `products/${productId}.jpg`),
+        join(__dirname, '../../', `public/products/${productId}.jpg`),
         fs.constants.F_OK,
       );
       return true;
-    } catch (error) {
+    } catch (err) {
       return false;
     }
   }
