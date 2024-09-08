@@ -47,11 +47,14 @@ export class AuthService {
       if (!authenticated) {
         throw new UnauthorizedException();
       } else {
-        console.log('compare success');
         return user;
       }
     } catch (err) {
       throw new UnauthorizedException('Credentials are not valid.');
     }
+  }
+
+  verifyToken(jwt: string) {
+    this.jwtService.verify(jwt);
   }
 }
